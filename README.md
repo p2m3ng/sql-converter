@@ -3,13 +3,14 @@
 [![pipeline status](https://gitlab.com/p2m3ng/sql-converter/badges/master/pipeline.svg)](https://gitlab.com/p2m3ng/sql-converter/-/commits/master)
 [![coverage report](https://gitlab.com/p2m3ng/sql-converter/badges/master/coverage.svg)](https://gitlab.com/p2m3ng/sql-converter/-/commits/master)
 
-Build SQL queries.   
+Build simple SQL queries.   
 Export SQL extract in dedicated format.
 
 ## Presentation
 
-This tool can be used by developers to dump SQL data to python dict or JSON and export it to CSV or JSON files.  
-Drop databases to readable format, export fixtures becomes easy.  
+This tool can be used by developers to dump SQL data to various data structures
+and export it to JSON or CSV files. 
+Dropping database tables becomes easy. 
 
 ## Installation
 
@@ -21,12 +22,20 @@ Or install with pip:
 
     $ pip install git+ssh://git@gitlab.com/p2m3ng/sql-converter
 
+Create a virtual environment: 
+
+    $ python3 -m venv venv
+    $ source venv/bin/activate
+    
+Install: 
+
+    $ Make install
+
 ### Configuration
 
-If you use sql-converter as a package, you will need to create the file directly in your virtualenv or use 
-environment variables to create it. 
+For database configuration, see: 
 
-Setup file has to be created here: `sql_converter/settings/files/config.yaml`. 
+    $ sql-converter config --help
 
 #### Environment Variables
 
@@ -40,7 +49,6 @@ Setup file has to be created here: `sql_converter/settings/files/config.yaml`.
 
 ### SQL Query Builder
 
-
 ```python
 from sql_converter.query import Query, Table
 ```
@@ -48,9 +56,10 @@ from sql_converter.query import Query, Table
 First, declare `Table` and build a `Query`. 
 
 **`name`** is the table name.  
-**`fields`** are the requested fields. If the parameter is not set, fields will be replaced by a `SELECT *`.  
-**`alias`** is the custom alias of the table. The system generates a default value which can be overridden if the 
-parameter is filled. 
+**`fields`** are the requested fields. If the parameter is not set, fields will 
+be replaced by a `SELECT *`.  
+**`alias`** is the custom alias of the table. The system generates a default 
+value which can be overridden if the parameter is filled. 
 
 ```python
 authors = Table(
@@ -81,8 +90,8 @@ query.build()
 By default, fields are protected: 
 
 ```sql
-SELECT `aut`.`id`, `aut`.`name`, `aut`.`first_name`, `aut`.`nationality`, `boo`.`id`, `boo`.`author_id`, `boo`.`title`, 
-`boo`.`isbn` 
+SELECT `aut`.`id`, `aut`.`name`, `aut`.`first_name`, `aut`.`nationality`, 
+`boo`.`id`, `boo`.`author_id`, `boo`.`title`, `boo`.`isbn` 
 FROM `author` AS `aut` 
     INNER JOIN `books` AS `boo` 
         ON `boo`.`author_id` = `aut`.`id` 
@@ -93,7 +102,8 @@ LIMIT 5;
 The `prettify` parameter prints it in a more readable format: 
 
 ```sql
-SELECT aut.id, aut.name, aut.first_name, aut.nationality, boo.id, boo.author_id, boo.title, boo.isbn 
+SELECT aut.id, aut.name, aut.first_name, aut.nationality, boo.id, boo.author_id,
+boo.title, boo.isbn 
 FROM author AS aut 
     INNER JOIN books AS boo 
         ON boo.author_id = aut.id 
@@ -148,7 +158,8 @@ Headers are mandatory.
 ```python
 from sql_converter.convert import SQLConvert
 
-query = """SELECT aut.id, aut.name, aut.first_name, aut.nationality, boo.id, boo.author_id, boo.title, boo.isbn 
+query = """SELECT aut.id, aut.name, aut.first_name, aut.nationality, boo.id, 
+boo.author_id, boo.title, boo.isbn 
 FROM author AS aut 
     INNER JOIN books AS boo 
         ON boo.author_id = aut.id 

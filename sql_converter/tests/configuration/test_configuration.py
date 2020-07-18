@@ -1,7 +1,11 @@
 import os
-import pytest
-from sql_converter.settings.settings import get_config
 from unittest import mock
+
+import pytest
+
+from sql_converter.settings.settings import get_config, CONFIG_FILES_PATH
+from click.testing import CliRunner
+from sql_converter.cli import cli
 
 
 @pytest.fixture()
@@ -21,6 +25,30 @@ fake_env = {
 def test_file_absolute_path(config):
     path = config.get_file_path()
     assert "settings/files/config.sample.yaml" in path
+
+
+def test_cli_config_should_dump_config_file():
+    testing_file = os.path.join(CONFIG_FILES_PATH, 'test.yaml')
+
+    runner = CliRunner()
+    result = runner.invoke(cli, ['config', '-n', 'mysqldbname', '-p', 'psswd', '-f', 'test.yaml'])
+    assert result.exit_code == 0
+    assert result.output == 'New config file generated.\n'
+    assert os.path.exists(testing_file)
+
+    os.remove(testing_file)
+
+
+def test_cli_config_default_values():
+    testing_file = os.path.join(CONFIG_FILES_PATH, 'test.yaml')
+
+    runner = CliRunner()
+    runner.invoke(cli, ['config', '-n', 'mysqldbname', '-p', 'psswd', '-f', 'test.yaml'])
+    config = get_config('test.yaml')
+    expected = {'db': {'host': 'localhost', 'name': 'mysqldbname', 'password': 'psswd', 'port': 3306, 'user': 'root'}}
+    assert config.get_file_content() == expected
+
+    os.remove(testing_file)
 
 
 def test_should_get_content_from_file(config):

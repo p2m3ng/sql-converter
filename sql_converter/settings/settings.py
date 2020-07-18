@@ -3,6 +3,7 @@ import os
 import yaml
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+CONFIG_FILES_PATH = os.path.join(BASE_DIR, 'files')
 
 
 class Config:
@@ -18,6 +19,10 @@ class Config:
         except FileNotFoundError:
             raise FileNotFoundError("Configuration file not set: check docs and fill `config.yaml` accordingly.")
 
+    def get_file_content(self):
+        with open(self.get_file_path()) as file:
+            return yaml.load(file, Loader=yaml.FullLoader)
+
     def dump_environment_variables(self):
         config = {
             'db':
@@ -29,12 +34,11 @@ class Config:
                 'password': os.environ["SQL_EXPORT_DB_PASSWORD"],
             }
         }
+        self.dump_to_config_file(config=config)
+
+    def dump_to_config_file(self, config):
         with open(self.get_file_path(), 'w') as file:
             yaml.dump(config, file)
-
-    def get_file_content(self):
-        with open(self.get_file_path()) as file:
-            return yaml.load(file, Loader=yaml.FullLoader)
 
     def get_file_path(self):
         return os.path.join(BASE_DIR, "files", self.file)

@@ -1,3 +1,7 @@
+install:
+	pip install -r requirements.txt
+	pip install -e .
+
 ## Clean repository
 
 clean: clean-build clean-pyc clean-test ## remove all build, test, coverage and Python artifacts
