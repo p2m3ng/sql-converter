@@ -1,19 +1,31 @@
+from unittest import mock
+
 import pytest
 
+from sql_converter.converter.connector import MySQLConnector
 from sql_converter.query_builder.database import Table
 from sql_converter.query_builder.syntax import Select, From, Join, Where, OrderBy, Limit
 
 
 class TestSelect:
     def test_should_select_given_fields(self):
-        table = Table(name="users", fields=["username", "email", "password"], alias="us")
+        table = Table(
+            name="users", fields=["username", "email", "password"], alias="us"
+        )
         select = Select().add(table=table)
-        assert select.build() == "SELECT `us`.`username`, `us`.`email`, `us`.`password` "
+        assert (
+            select.build() == "SELECT `us`.`username`, `us`.`email`, `us`.`password` "
+        )
 
-    def test_no_filled_field_should_select_everything(self):
-        table = Table(name="users")
+    @mock.patch.object(MySQLConnector, "execute")
+    def test_no_filled_field_should_select_everything(self, mocked_connector):
+        mocked_connector.return_value = (
+            ("id", "int(10) unsigned", "NO", "PRI", None, "auto_increment"),
+            ("user", "varchar(200) unsigned", "NO", "", None, ""),
+        )
+        table = Table(name="users", alias="us")
         select = Select().add(table=table)
-        assert select.build() == "SELECT * "
+        assert select.build() == "SELECT `us`.`id`, `us`.`user` "
 
     def test_repr_should_return_selected_tables_names(self):
         table1 = Table("users")
@@ -22,7 +34,9 @@ class TestSelect:
         assert repr(select) == "<Select: users, books>"
 
     def test_str_should_return_sql_select_expression(self):
-        table1 = Table(name="users", fields=["username", "email", "password"], alias="us")
+        table1 = Table(
+            name="users", fields=["username", "email", "password"], alias="us"
+        )
         select = Select().add(table=table1)
         assert str(select) == "SELECT `us`.`username`, `us`.`email`, `us`.`password` "
 
@@ -42,11 +56,15 @@ class TestFrom:
 class TestJoin:
     @pytest.fixture
     def table1(self):
-        return Table(name="users", fields=["id", "username", "email", "password"], alias="us")
+        return Table(
+            name="users", fields=["id", "username", "email", "password"], alias="us"
+        )
 
     @pytest.fixture
     def table2(self):
-        return Table(name="address", fields=["id", "user_id", "city", "country"], alias="ad")
+        return Table(
+            name="address", fields=["id", "user_id", "city", "country"], alias="ad"
+        )
 
     def test_should_return_inner_join_expression(self, table1, table2):
         join = Join(table1=table1, field1="id", table2=table2, field2="user_id")
@@ -56,43 +74,63 @@ class TestJoin:
         assert str(join) == expected
 
     def test_should_return_left_join_expression(self, table1, table2):
-        join = Join(table1=table1, field1="id", table2=table2, field2="user_id", type="left")
+        join = Join(
+            table1=table1, field1="id", table2=table2, field2="user_id", type="left"
+        )
         expected = """\n    LEFT JOIN `address` AS `ad` 
         ON `ad`.`user_id` = `us`.`id` """
         assert join.build() == expected
 
     def test_should_return_right_join_expression(self, table1, table2):
-        join = Join(table1=table1, field1="id", table2=table2, field2="user_id", type="right")
+        join = Join(
+            table1=table1, field1="id", table2=table2, field2="user_id", type="right"
+        )
         expected = """\n    RIGHT JOIN `address` AS `ad` 
         ON `ad`.`user_id` = `us`.`id` """
         assert join.build() == expected
 
     def test_should_return_full_outer_join_expression(self, table1, table2):
-        join = Join(table1=table1, field1="id", table2=table2, field2="user_id", type="full outer join")
+        join = Join(
+            table1=table1,
+            field1="id",
+            table2=table2,
+            field2="user_id",
+            type="full outer join",
+        )
         expected = """\n    FULL OUTER JOIN `address` AS `ad` 
         ON `ad`.`user_id` = `us`.`id` """
         assert join.build() == expected
 
     def test_repr_should_return_both_tables_names(self):
-        table1 = Table(name="users", fields=["id", "username", "email", "password"], alias="us")
-        table2 = Table(name="address", fields=["id", "user_id", "city", "country"], alias="ad")
+        table1 = Table(
+            name="users", fields=["id", "username", "email", "password"], alias="us"
+        )
+        table2 = Table(
+            name="address", fields=["id", "user_id", "city", "country"], alias="ad"
+        )
         join = Join(table1=table1, field1="id", table2=table2, field2="user_id")
         assert repr(join) == "<Join: users and address>"
 
 
 class TestWhere:
     def test_should_return_where_expression(self):
-        table = Table(name="users", fields=["id", "username", "email", "password"], alias="us")
+        table = Table(
+            name="users", fields=["id", "username", "email", "password"], alias="us"
+        )
         where = Where(table=table, field="id", predicate="= 12")
         assert where.build() == "\nWHERE `us`.`id` = 12 "
 
     def test_repr_should_return_where_expression_details(self):
-        table = Table(name="users", fields=["id", "username", "email", "password"], alias="us")
+        table = Table(
+            name="users", fields=["id", "username", "email", "password"], alias="us"
+        )
         where = Where(table=table, field="id", predicate="= 12")
         assert repr(where) == "<Where: users :: id :: = 12>"
 
     def test_str_should_return_where_expression(self):
-        table = Table(name="users", fields=["id", "username", "email", "password"], alias="us")
+        table = Table(
+            name="users", fields=["id", "username", "email", "password"], alias="us"
+        )
         where = Where(table=table, field="id", predicate="= 12")
         assert str(where) == "\nWHERE `us`.`id` = 12 "
 
@@ -100,7 +138,9 @@ class TestWhere:
 class TestOrderBy:
     @pytest.fixture
     def table(self):
-        return Table(name="users", fields=["id", "username", "email", "password"], alias="us")
+        return Table(
+            name="users", fields=["id", "username", "email", "password"], alias="us"
+        )
 
     def test_should_return_ascendant_order(self, table):
         order_by = OrderBy(table=table, field="id")

@@ -11,16 +11,13 @@ def query():
 
 @pytest.fixture
 def data():
-    return (51, 'John Doe', "john.doe@example.com"),
+    return ((51, "John Doe", "john.doe@example.com"),)
 
 
 @mock.patch.object(SQLConvert, "make_query")
 def test_sql_export_should_print_data(mock_sql_response, query, data, capsys):
     mock_sql_response.return_value = data
-    SQLConvert(
-        query=query,
-        headers=["id", "username", "email"],
-    ).make(pprint=True)
+    SQLConvert(query=query, headers=["id", "username", "email"],).make(pprint=True)
     expected = "{'id': 51, 'username': 'John Doe', 'email': 'john.doe@example.com'}\n"
     captured = capsys.readouterr()
     assert captured.out == expected

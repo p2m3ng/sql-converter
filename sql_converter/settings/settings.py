@@ -3,7 +3,7 @@ import os
 import yaml
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-CONFIG_FILES_PATH = os.path.join(BASE_DIR, 'files')
+CONFIG_FILES_PATH = os.path.join(BASE_DIR, "files")
 
 
 class Config:
@@ -17,7 +17,9 @@ class Config:
         try:
             return self.get_file_content()
         except FileNotFoundError:
-            raise FileNotFoundError("Configuration file not set: check docs and fill `config.yaml` accordingly.")
+            raise FileNotFoundError(
+                "Configuration file not set: check docs and fill `config.yaml` accordingly."
+            )
 
     def get_file_content(self):
         with open(self.get_file_path()) as file:
@@ -25,19 +27,18 @@ class Config:
 
     def dump_environment_variables(self):
         config = {
-            'db':
-            {
-                'host': os.environ["SQL_EXPORT_DB_HOST"],
-                'port': int(os.environ["SQL_EXPORT_DB_PORT"]),
-                'user': os.environ["SQL_EXPORT_DB_USER"],
-                'name': os.environ["SQL_EXPORT_DB_NAME"],
-                'password': os.environ["SQL_EXPORT_DB_PASSWORD"],
+            "db": {
+                "host": os.environ["SQL_EXPORT_DB_HOST"],
+                "port": int(os.environ["SQL_EXPORT_DB_PORT"]),
+                "user": os.environ["SQL_EXPORT_DB_USER"],
+                "name": os.environ["SQL_EXPORT_DB_NAME"],
+                "password": os.environ["SQL_EXPORT_DB_PASSWORD"],
             }
         }
         self.dump_to_config_file(config=config)
 
     def dump_to_config_file(self, config):
-        with open(self.get_file_path(), 'w') as file:
+        with open(self.get_file_path(), "w") as file:
             yaml.dump(config, file)
 
     def get_file_path(self):

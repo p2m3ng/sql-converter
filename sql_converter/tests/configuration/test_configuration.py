@@ -14,11 +14,11 @@ def config():
 
 
 fake_env = {
-    'SQL_EXPORT_DB_HOST': 'test_localhost',
-    'SQL_EXPORT_DB_PORT': "1234",
-    'SQL_EXPORT_DB_USER': 'root',
-    'SQL_EXPORT_DB_NAME': 'mysql database name',
-    'SQL_EXPORT_DB_PASSWORD': 'psswd'
+    "SQL_EXPORT_DB_HOST": "test_localhost",
+    "SQL_EXPORT_DB_PORT": "1234",
+    "SQL_EXPORT_DB_USER": "root",
+    "SQL_EXPORT_DB_NAME": "mysql database name",
+    "SQL_EXPORT_DB_PASSWORD": "psswd",
 }
 
 
@@ -28,24 +28,36 @@ def test_file_absolute_path(config):
 
 
 def test_cli_config_should_dump_config_file():
-    testing_file = os.path.join(CONFIG_FILES_PATH, 'test.yaml')
+    testing_file = os.path.join(CONFIG_FILES_PATH, "test.yaml")
 
     runner = CliRunner()
-    result = runner.invoke(cli, ['config', '-n', 'mysqldbname', '-p', 'psswd', '-f', 'test.yaml'])
+    result = runner.invoke(
+        cli, ["config", "-n", "mysqldbname", "-p", "psswd", "-f", "test.yaml"]
+    )
     assert result.exit_code == 0
-    assert result.output == 'New config file generated.\n'
+    assert result.output == "New config file generated.\n"
     assert os.path.exists(testing_file)
 
     os.remove(testing_file)
 
 
 def test_cli_config_default_values():
-    testing_file = os.path.join(CONFIG_FILES_PATH, 'test.yaml')
+    testing_file = os.path.join(CONFIG_FILES_PATH, "test.yaml")
 
     runner = CliRunner()
-    runner.invoke(cli, ['config', '-n', 'mysqldbname', '-p', 'psswd', '-f', 'test.yaml'])
-    config = get_config('test.yaml')
-    expected = {'db': {'host': 'localhost', 'name': 'mysqldbname', 'password': 'psswd', 'port': 3306, 'user': 'root'}}
+    runner.invoke(
+        cli, ["config", "-n", "mysqldbname", "-p", "psswd", "-f", "test.yaml"]
+    )
+    config = get_config("test.yaml")
+    expected = {
+        "db": {
+            "host": "localhost",
+            "name": "mysqldbname",
+            "password": "psswd",
+            "port": 3306,
+            "user": "root",
+        }
+    }
     assert config.get_file_content() == expected
 
     os.remove(testing_file)
@@ -56,13 +68,12 @@ def test_should_get_content_from_file(config):
     with pytest.raises(KeyError):
         os.environ["SQL_EXPORT_DB_HOST"]
     expected = {
-        'db':
-        {
-            'host': 'localhost',
-            'port': 0,
-            'user': 'root',
-            'name': 'mysql database name',
-            'password': 'psswd'
+        "db": {
+            "host": "localhost",
+            "port": 0,
+            "user": "root",
+            "name": "mysql database name",
+            "password": "psswd",
         }
     }
     assert content == expected
@@ -72,7 +83,7 @@ def test_should_get_content_from_file(config):
 def test_should_get_content_from_environment_variables():
     config = get_config("config-test.yaml")
     assert config.get["db"]["host"] == "test_localhost"
-    assert os.environ['SQL_EXPORT_DB_HOST']
+    assert os.environ["SQL_EXPORT_DB_HOST"]
     os.remove(config.get_file_path())
 
 
@@ -83,7 +94,7 @@ def test_db_port_should_be_integer():
 
 
 def test_get_item(config):
-    id = config.get["db"]['host']
+    id = config.get["db"]["host"]
     assert id == "localhost"
 
 

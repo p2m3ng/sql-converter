@@ -3,6 +3,7 @@ from unittest import mock
 import pytest
 
 from sql_converter.query_builder.database import BaseMapper, Database, Table, Field
+from sql_converter.converter.connector import MySQLConnector
 
 
 def test_generate_alias():
@@ -37,9 +38,14 @@ class TestTable:
         assert table.name == "users"
         assert table.alias == "aze"
 
-    def test_table_without_fields_should_return_none(self):
-        table = Table("name")
-        assert table.fields is None
+    @mock.patch.object(MySQLConnector, "execute")
+    def test_table_without_fields_should_return_none(self, mocked_connector):
+        mocked_connector.return_value = (
+            ("id", "int(10) unsigned", "NO", "PRI", None, "auto_increment"),
+            ("user", "varchar(200) unsigned", "NO", "", None, ""),
+        )
+        table = Table("users", alias="us")
+        assert table.fields == "`us`.`id`, `us`.`user`"
 
 
 class TestField:

@@ -2,26 +2,30 @@ import pymysql
 
 from sql_converter.settings.settings import get_config
 
+config = get_config()
+
 
 class MySQLConnector:
-    config = get_config()
+    host = config.get["db"]["host"]
+    user = config.get["db"]["user"]
+    password = config.get["db"]["password"]
+    name = config.get["db"]["name"]
+    port = config.get["db"]["port"]
 
-    @classmethod
-    def connect(cls):
+    @property
+    def connect(self):
         return pymysql.connect(
-            host=cls.config.get['db']['host'],
-            user=cls.config.get['db']['user'],
-            password=cls.config.get['db']['password'],
-            db=cls.config.get['db']['name'],
-            port=cls.config.get['db']['port'],
+            host=self.host,
+            user=self.user,
+            password=self.password,
+            db=self.name,
+            port=self.port,
         )
 
-    @classmethod
-    def execute(cls, request):
-        connect = cls.connect()
+    def execute(self, query):
         try:
-            with connect.cursor() as cursor:
-                cursor.execute(request)
+            with self.connect.cursor(pymysql.cursors.DictCursor) as cursor:
+                cursor.execute(query)
                 return cursor.fetchall()
         finally:
-            connect.close()
+            self.connect.close()

@@ -17,9 +17,8 @@ class BaseFormatter(ABC):
 
 
 class CSVFormatter(BaseFormatter):
-
     def export(self):
-        with open(f"{self.export_to}", 'w') as file:
+        with open(f"{self.export_to}", "w") as file:
             writer = csv.writer(file, delimiter="|")
             writer.writerow(self.headers)
             writer.writerows(self.data)
@@ -28,7 +27,7 @@ class CSVFormatter(BaseFormatter):
 
     def print(self):
         self.export()
-        with open(f"{self.export_to}", 'r') as file:
+        with open(f"{self.export_to}", "r") as file:
             reader = csv.reader(file, delimiter="|")
             for line in reader:
                 print(line)
@@ -44,10 +43,16 @@ class DictFormatter(BaseFormatter, ABC):
 
 
 class JsonFormatter(DictFormatter):
-
     def export(self):
         with open(f"{self.export_to}", "w") as file:
-            json.dump(self.to_dict(), file, indent=2, ensure_ascii=False, default=str)
+            json.dump(
+                self.to_dict(),
+                file,
+                indent=2,
+                ensure_ascii=False,
+                sort_keys=False,
+                default=str,
+            )
         print(f"{self.export_to} has been created successfully.")
         return self.use()
 
@@ -55,7 +60,9 @@ class JsonFormatter(DictFormatter):
         return json.dumps(self.to_dict(), ensure_ascii=False, default=str)
 
     def print(self):
-        return print(json.dumps(self.to_dict(), indent=2, ensure_ascii=False, default=str))
+        return print(
+            json.dumps(self.to_dict(), indent=2, ensure_ascii=False, default=str)
+        )
 
 
 class ConsoleFormatter(DictFormatter):

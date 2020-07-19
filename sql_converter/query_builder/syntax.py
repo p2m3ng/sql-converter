@@ -15,17 +15,15 @@ class Select(SQLExpression):
 
     @property
     def fields(self) -> (str, None):
-        fields = [table.fields for table in self.tables]
-        if fields[0] is None:
-            return None
-        return ', '.join(fields)
+        if len(self.tables) > 1:
+            return ", ".join([table.fields for table in self.tables])
+        elif len(self.tables) == 1:
+            return self.tables[0].fields
 
     def build(self) -> str:
-        if self.fields is None:
-            return "SELECT * "
         return f"SELECT {self.fields} "
 
-    def add(self, table) -> 'Select':
+    def add(self, table) -> "Select":
         self.tables.append(table)
         return self
 
@@ -41,7 +39,11 @@ class From(SQLExpression):
         self.table: Table = table
 
     def build(self) -> str:
-        return f"\nFROM `{self.table.name}` AS `{self.table.alias}` "
+        if self.table.database.name:
+            database = f"`{self.table.database.name}`."
+        else:
+            database = ""
+        return f"\nFROM {database}`{self.table.name}` AS `{self.table.alias}` "
 
     def __repr__(self) -> str:
         return f"<From # {self.table.name} ({self.table.alias})>"
@@ -52,12 +54,12 @@ class From(SQLExpression):
 
 class Join(SQLExpression):
     def __init__(
-            self,
-            table1: Table,
-            field1: str,
-            table2: Table,
-            field2: str,
-            type: Optional[str] = None
+        self,
+        table1: Table,
+        field1: str,
+        table2: Table,
+        field2: str,
+        type: Optional[str] = None,
     ):
         self.table1 = table1
         self.field1 = field1
@@ -66,8 +68,10 @@ class Join(SQLExpression):
         self.type = type
 
     def build(self) -> str:
-        return f"\n{(' '*4)}{self.get_join_type()} JOIN `{self.table2.name}` AS `{self.table2.alias}` " \
-               f"\n{(' '*8)}ON `{self.table2.alias}`.`{self.field2}` = `{self.table1.alias}`.`{self.field1}` "
+        return (
+            f"\n{(' '*4)}{self.get_join_type()} JOIN `{self.table2.name}` AS `{self.table2.alias}` "
+            f"\n{(' '*8)}ON `{self.table2.alias}`.`{self.field2}` = `{self.table1.alias}`.`{self.field1}` "
+        )
 
     def get_join_type(self):
         if not self.type:

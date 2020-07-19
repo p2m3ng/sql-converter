@@ -1,6 +1,11 @@
 from typing import Optional
 
-from sql_converter.converter.formatters import CSVFormatter, DictFormatter, JsonFormatter, ConsoleFormatter
+from sql_converter.converter.formatters import (
+    CSVFormatter,
+    DictFormatter,
+    JsonFormatter,
+    ConsoleFormatter,
+)
 from sql_converter.settings.settings import get_config
 
 config = get_config()
@@ -49,17 +54,25 @@ class OutputManager:
 
     def __to_console(self, pprint: bool = False):
         if pprint:
-            return ConsoleFormatter(headers=self.headers, data=self.data, export_to=self.filename).print()
-        return DictFormatter(headers=self.headers, data=self.data, export_to=self.filename).to_dict()
+            return ConsoleFormatter(
+                headers=self.headers, data=self.data, export_to=self.filename
+            ).print()
+        return DictFormatter(
+            headers=self.headers, data=self.data, export_to=self.filename
+        ).to_dict()
 
     def __to_csv(self, pprint: bool = False):
-        formatter = CSVFormatter(headers=self.headers, data=self.data, export_to=self.filename)
+        formatter = CSVFormatter(
+            headers=self.headers, data=self.data, export_to=self.filename
+        )
         if pprint:
             return formatter.print()
         return formatter.export()
 
     def __to_json(self, pprint: bool = False, json: bool = False):
-        formatter = JsonFormatter(headers=self.headers, data=self.data, export_to=self.filename)
+        formatter = JsonFormatter(
+            headers=self.headers, data=self.data, export_to=self.filename
+        )
         if pprint:
             formatter.print()
         if self._filename and not json:

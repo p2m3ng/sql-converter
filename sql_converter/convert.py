@@ -7,10 +7,7 @@ from sql_converter.query import Query
 
 class SQLConvert:
     def __init__(
-            self,
-            query: (Query, str),
-            headers: List[str],
-            export_to: Optional[str] = None,
+        self, query: (Query, str), headers: List[str], export_to: Optional[str] = None,
     ):
         self.query = query
         self._headers = headers
@@ -23,7 +20,7 @@ class SQLConvert:
         return self._headers
 
     def make_query(self):
-        return MySQLConnector.execute(self.query)
+        return MySQLConnector().execute(query=self.query)
 
     def make(self, pprint: Optional[bool] = False, json: Optional[bool] = False):
         return OutputManager(
