@@ -1,8 +1,8 @@
 from typing import List, Optional
 
-from sql_converter.converter.connector import MySQLConnector
-from sql_converter.converter.manager import OutputManager
-from sql_converter.query import Query
+from src.converter.connector import MySQLConnector
+from src.converter.manager import OutputManager
+from src.query import Query
 
 
 class SQLConvert:

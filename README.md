@@ -42,7 +42,7 @@ For database configuration, see:
 ### SQL Query Builder
 
 ```python
-from sql_converter.query import Query, Table
+from src.query import Query, Table
 ```
 
 First, declare `Table` and build a `Query`. 
@@ -112,7 +112,7 @@ LIMIT 5;
 ### Parameters
 
 ```python
-from sql_converter.convert import SQLConvert
+from src.convert import SQLConvert
 
 export = SQLConvert(
     query=query.build(),
@@ -153,7 +153,7 @@ data = export.make(pprint=True)
 Headers are mandatory. 
 
 ```python
-from sql_converter.convert import SQLConvert
+from src.convert import SQLConvert
 
 query = """SELECT aut.id, aut.name, aut.first_name, aut.nationality, boo.id, 
 boo.author_id, boo.title, boo.isbn 

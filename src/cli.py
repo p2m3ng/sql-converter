@@ -1,7 +1,7 @@
 import os
 import click
 
-from sql_converter.settings.settings import Config, CONFIG_FILES_PATH
+from settings.base import Config, CONFIG_FILES_PATH
 
 
 @click.group()

@@ -1,7 +1,7 @@
 import random
 import string
-from sql_converter.converter.connector import MySQLConnector
-from sql_converter.converter.formatters import DictFormatter, JsonFormatter
+from src.converter.connector import MySQLConnector
+from src.converter.formatters import DictFormatter, JsonFormatter
 
 
 class BaseMapper:

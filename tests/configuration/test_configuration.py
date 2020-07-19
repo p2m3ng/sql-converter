@@ -3,9 +3,9 @@ from unittest import mock
 
 import pytest
 
-from sql_converter.settings.settings import get_config, CONFIG_FILES_PATH
+from settings.base import get_config, CONFIG_FILES_PATH
 from click.testing import CliRunner
-from sql_converter.cli import cli
+from src.cli import cli
 
 
 @pytest.fixture()

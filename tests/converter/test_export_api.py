@@ -1,7 +1,7 @@
 import pytest
 from unittest import mock
 
-from sql_converter.convert import SQLConvert
+from src.convert import SQLConvert
 
 
 @pytest.fixture

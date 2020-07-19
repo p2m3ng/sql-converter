@@ -1,5 +1,5 @@
-from sql_converter.query_builder.database import Table
-from sql_converter.query_builder.syntax import Select, From, Join, Where, OrderBy, Limit
+from src.query_builder.database import Table
+from src.query_builder.syntax import Select, From, Join, Where, OrderBy, Limit
 
 
 class QueryBuilder:

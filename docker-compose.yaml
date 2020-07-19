@@ -1,0 +1,21 @@
+version: "3"
+
+services:
+
+  mysql:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    container_name: sqlco-mysql
+    restart: always
+    env_file: .env
+    volumes:
+      - ./volume/mysql:/var/lib/mysql
+    ports:
+      - "3306:3306"
+
+  adminer:
+    image: adminer
+    container_name: sqlco-adminer
+    restart: always
+    ports:
+      - 8080:8080

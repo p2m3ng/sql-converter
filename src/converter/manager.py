@@ -1,12 +1,12 @@
 from typing import Optional
 
-from sql_converter.converter.formatters import (
+from src.converter.formatters import (
     CSVFormatter,
     DictFormatter,
     JsonFormatter,
     ConsoleFormatter,
 )
-from sql_converter.settings.settings import get_config
+from settings.base import get_config
 
 config = get_config()
 

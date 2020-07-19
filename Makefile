@@ -30,6 +30,19 @@ clean-test: ## remove test and coverage artifacts
 prune-venv:
 	rm -fr venv/
 
+## Docker
+up:
+	docker-compose up -d
+
+db:
+	docker exec -i sqlco-mysql mysql -uroot -ppassword < dev/mysqlsampledatabase.sql
+
+conn:
+	docker exec -ti sqlco-mysql mysql -uroot -ppassword
+
+down:
+	docker-compose down --remove-orphans
+
 ## Tests
 
 test:
@@ -39,3 +52,6 @@ coverage:
 	py.test --cov=.
 	coverage html
 	sensible-browser htmlcov/index.html
+
+zz:
+	GRANT ALL TO 'user'@'localhost' IDENTIFIED BY 'user' ; FLUSH PRIVILEGES;

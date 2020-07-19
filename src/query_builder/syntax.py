@@ -1,4 +1,4 @@
-from sql_converter.query_builder.database import Table
+from src.query_builder.database import Table
 from typing import Optional
 from abc import ABC, abstractmethod
 

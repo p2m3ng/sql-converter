@@ -1,25 +1,20 @@
 import pymysql
 
-from sql_converter.settings.settings import get_config
+from settings.base import get_config
 
 config = get_config()
 
 
 class MySQLConnector:
-    host = config.get["db"]["host"]
-    user = config.get["db"]["user"]
-    password = config.get["db"]["password"]
-    name = config.get["db"]["name"]
-    port = config.get["db"]["port"]
 
     @property
     def connect(self):
         return pymysql.connect(
-            host=self.host,
-            user=self.user,
-            password=self.password,
-            db=self.name,
-            port=self.port,
+            host=config.get["db"]["host"],
+            user=config.get["db"]["user"],
+            password=config.get["db"]["password"],
+            db=config.get["db"]["name"],
+            port=config.get["db"]["port"],
         )
 
     def execute(self, query):

@@ -2,8 +2,8 @@ import os
 
 import pytest
 
-from sql_converter.converter.formatters import ConsoleFormatter
-from sql_converter.converter.manager import OutputManager
+from src.converter.formatters import ConsoleFormatter
+from src.converter.manager import OutputManager
 
 
 @pytest.fixture

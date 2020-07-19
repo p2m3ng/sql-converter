@@ -21,7 +21,7 @@ setup(
     description='Export SQL extract in dedicated format (CSV, JSON)',
     entry_points={
         'console_scripts': [
-            'sqlconverter=sql_converter.cli:cli',
+            'sqlconverter=src.cli:cli',
         ],
     },
     install_requires=requirements,
@@ -31,7 +31,7 @@ setup(
     long_description=readme + '\n\n',
     platforms='any',
     name='sql-converter',
-    packages=find_packages(include=['sql_converter']),
+    packages=find_packages(include=['src']),
     setup_requires=setup_requirements,
     test_suite='tests',
     tests_require=test_requirements,
