@@ -11,7 +11,7 @@ def query():
 
 @pytest.fixture
 def data():
-    return ((51, "John Doe", "john.doe@example.com"),)
+    return {"id": 51, "username": "John Doe", "email": "john.doe@example.com"}
 
 
 @mock.patch.object(SQLConvert, "make_query")

@@ -59,7 +59,7 @@ class OutputManager:
             ).print()
         return DictFormatter(
             headers=self.headers, data=self.data, export_to=self.filename
-        ).to_dict()
+        ).export()
 
     def __to_csv(self, pprint: bool = False):
         formatter = CSVFormatter(

@@ -7,7 +7,7 @@ from src.converter.formatters import DictFormatter, JsonFormatter
 class BaseMapper:
     connector = MySQLConnector()
 
-    def __init__(self, name, alias=None):
+    def __init__(self, name=None, alias=None):
         self.name = name
         self._alias = alias
 
@@ -27,14 +27,7 @@ class BaseMapper:
 
 
 class Database(BaseMapper):
-    def show_databases(self):
-        databases = self.connector.execute(query="SHOW DATABASES;")
-        return [database[0] for database in databases]
-
-    def show_tables(self):
-        self.connector.name = self.name
-        tables = self.connector.execute(query="SHOW TABLES;")
-        return [table[0] for table in tables]
+    pass
 
 
 class Table(BaseMapper):
@@ -48,7 +41,7 @@ class Table(BaseMapper):
         headers = ["field", "type", "null", "key", "default", "extra"]
         if json:
             return JsonFormatter(headers=headers, data=data, export_to=None).use()
-        return DictFormatter(headers=headers, data=data, export_to=None).to_dict()
+        return data
 
     def get_headers(self):
         return [header["field"] for header in self.describe()]

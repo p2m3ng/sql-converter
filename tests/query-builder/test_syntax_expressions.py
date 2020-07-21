@@ -19,10 +19,24 @@ class TestSelect:
 
     @mock.patch.object(MySQLConnector, "execute")
     def test_no_filled_field_should_select_everything(self, mocked_connector):
-        mocked_connector.return_value = (
-            ("id", "int(10) unsigned", "NO", "PRI", None, "auto_increment"),
-            ("user", "varchar(200) unsigned", "NO", "", None, ""),
-        )
+        mocked_connector.return_value = [
+            {
+                "field": "id",
+                "type": "int[10] unsigned",
+                "null": "NO",
+                "key": "PRI",
+                "default": None,
+                "extra": "auto_increment",
+            },
+            {
+                "field": "user",
+                "type": "varchar[200] unsigned",
+                "null": "NO",
+                "key": "",
+                "default": None,
+                "extra": "",
+            },
+        ]
         table = Table(name="users", alias="us")
         select = Select().add(table=table)
         assert select.build() == "SELECT `us`.`id`, `us`.`user` "
@@ -51,6 +65,11 @@ class TestFrom:
         table = Table(name="users", alias="us")
         from_expression = From(table=table)
         assert repr(from_expression) == "<From # users (us)>"
+
+    def test_should_use_database_name(self):
+        table = Table(database='sample', name="users", alias="us")
+        from_expression = From(table=table)
+        assert from_expression.build() == "\nFROM `sample`.`users` AS `us` "
 
 
 class TestJoin:

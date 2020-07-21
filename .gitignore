@@ -3,6 +3,9 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# System files
+.DS_Store
+
 # C extensions
 *.so
 
@@ -130,6 +133,9 @@ dmypy.json
 
 # Pycharm stuffs
 .idea
+
+# Docker stuffs
+volume/*
 
 # Personal stuffs
 dev/*

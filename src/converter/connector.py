@@ -6,6 +6,16 @@ config = get_config()
 
 
 class MySQLConnector:
+    def __init__(self):
+        self._cursor = ""
+
+    @property
+    def cursor(self):
+        return self._cursor
+
+    @cursor.setter
+    def cursor(self, value):
+        self._cursor = value
 
     @property
     def connect(self):

@@ -18,10 +18,12 @@ class BaseFormatter(ABC):
 
 class CSVFormatter(BaseFormatter):
     def export(self):
+        headers = self.data[0].keys()
         with open(f"{self.export_to}", "w") as file:
-            writer = csv.writer(file, delimiter="|")
-            writer.writerow(self.headers)
-            writer.writerows(self.data)
+            writer = csv.DictWriter(file, delimiter="|", fieldnames=headers)
+            writer.writeheader()
+            for data in self.data:
+                writer.writerow(data)
         print(f"{self.export_to} has been created successfully.")
         return ""
 
@@ -35,18 +37,15 @@ class CSVFormatter(BaseFormatter):
 
 
 class DictFormatter(BaseFormatter, ABC):
-    def to_dict(self):
-        result = []
-        for data in self.data:
-            result.append(dict(zip(self.headers, data)))
-        return result
+    def export(self):
+        return self.data
 
 
-class JsonFormatter(DictFormatter):
+class JsonFormatter(BaseFormatter):
     def export(self):
         with open(f"{self.export_to}", "w") as file:
             json.dump(
-                self.to_dict(),
+                self.data,
                 file,
                 indent=2,
                 ensure_ascii=False,
@@ -57,18 +56,22 @@ class JsonFormatter(DictFormatter):
         return self.use()
 
     def use(self):
-        return json.dumps(self.to_dict(), ensure_ascii=False, default=str)
+        return json.dumps(self.data, ensure_ascii=False, default=str)
 
     def print(self):
         return print(
-            json.dumps(self.to_dict(), indent=2, ensure_ascii=False, default=str)
+            json.dumps(self.data, indent=2, ensure_ascii=False, default=str)
         )
 
 
-class ConsoleFormatter(DictFormatter):
+class ConsoleFormatter(BaseFormatter):
     def export(self):
         raise ValueError("Unusable method.")
 
     def print(self):
-        for data in self.to_dict():
-            print(data)
+        if isinstance(self.data, list):
+            for data in self.data:
+                print(data)
+        elif isinstance(self.data, dict):
+            print(self.data)
+

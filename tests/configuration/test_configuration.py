@@ -32,7 +32,18 @@ def test_cli_config_should_dump_config_file():
 
     runner = CliRunner()
     result = runner.invoke(
-        cli, ["config", "-n", "mysqldbname", "-p", "psswd", "-f", "test.yaml"]
+        cli,
+        [
+            "config",
+            "-d",
+            "mysql",
+            "-n",
+            "mysqldbname",
+            "-p",
+            "psswd",
+            "-f",
+            "test.yaml",
+        ],
     )
     assert result.exit_code == 0
     assert result.output == "New config file generated.\n"
@@ -46,11 +57,23 @@ def test_cli_config_default_values():
 
     runner = CliRunner()
     runner.invoke(
-        cli, ["config", "-n", "mysqldbname", "-p", "psswd", "-f", "test.yaml"]
+        cli,
+        [
+            "config",
+            "-d",
+            "mysql",
+            "-n",
+            "mysqldbname",
+            "-p",
+            "psswd",
+            "-f",
+            "test.yaml",
+        ],
     )
     config = get_config("test.yaml")
     expected = {
         "db": {
+            "db": "mysql",
             "host": "localhost",
             "name": "mysqldbname",
             "password": "psswd",

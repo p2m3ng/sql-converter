@@ -13,6 +13,7 @@ def headers():
 
 @pytest.fixture
 def data():
+    return [{"id": 1, "user": "John Doe"}, {"id": 2, "user": "John Smith"}]
     return (
         (1, "John Doe"),
         (2, "John Smith"),
@@ -33,8 +34,10 @@ def test_should_print_json_output(headers, data, capsys):
     OutputManager(headers=headers, data=data).run(pprint=True, json=True)
     captured = capsys.readouterr()
     expected = (
-        '[\n  {\n    "id": 1,\n    "users": "John Doe"\n  }'
-        ',\n  {\n    "id": 2,\n    "users": "John Smith"\n  }\n]\n'
+        "[\n  "
+        '{\n    "id": 1,\n    "user": "John Doe"\n  },\n  '
+        '{\n    "id": 2,\n    "user": "John Smith"\n  }\n'
+        "]\n"
     )
     assert captured.out == expected
 
@@ -52,7 +55,9 @@ def test_csv_formatter_should_print_result_on_console(headers, data, capsys):
     captured = capsys.readouterr()
     expected = (
         "test_csv.csv has been created successfully.\n"
-        "['id', 'users']\n['1', 'John Doe']\n['2', 'John Smith']\n"
+        "['id', 'user']\n"
+        "['1', 'John Doe']\n"
+        "['2', 'John Smith']\n"
     )
     assert captured.out == expected
     assert os.path.exists("test_csv.csv") is True
@@ -81,3 +86,11 @@ def test_export_console_output_should_return_error():
     )
     with pytest.raises(ValueError):
         ConsoleFormatter(headers=["id", "user"], data=data, export_to=None).export()
+
+
+# expected = [
+#         {'field': 'id', 'type': 'int[10] unsigned', 'null': 'NO', 'key': 'PRI', 'default': None,
+#          'extra': 'auto_increment'},
+#         {'field': 'user', 'type': 'varchar[200] unsigned', 'null': 'NO', 'key': '', 'default': None, 'extra': ''}
+#     ]
+# print(captured)

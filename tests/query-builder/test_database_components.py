@@ -40,10 +40,24 @@ class TestTable:
 
     @mock.patch.object(MySQLConnector, "execute")
     def test_table_without_fields_should_return_none(self, mocked_connector):
-        mocked_connector.return_value = (
-            ("id", "int(10) unsigned", "NO", "PRI", None, "auto_increment"),
-            ("user", "varchar(200) unsigned", "NO", "", None, ""),
-        )
+        mocked_connector.return_value = [
+            {
+                "field": "id",
+                "type": "int[10] unsigned",
+                "null": "NO",
+                "key": "PRI",
+                "default": None,
+                "extra": "auto_increment",
+            },
+            {
+                "field": "user",
+                "type": "varchar[200] unsigned",
+                "null": "NO",
+                "key": "",
+                "default": None,
+                "extra": "",
+            },
+        ]
         table = Table("users", alias="us")
         assert table.fields == "`us`.`id`, `us`.`user`"
 
