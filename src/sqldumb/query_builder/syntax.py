@@ -1,4 +1,4 @@
-from src.query_builder.database import Table
+from sqldumb.query_builder.database import Table
 from typing import Optional
 from abc import ABC, abstractmethod
 

@@ -1,13 +1,13 @@
 from typing import List, Optional
 
-from src.converter.connector import MySQLConnector
-from src.converter.manager import OutputManager
-from src.query import Query
+from sqldumb.converter.connector import MySQLConnector
+from sqldumb.converter.manager import OutputManager
+from sqldumb.query import Query
 
 
 class SQLConvert:
     def __init__(
-        self, query: (Query, str), headers: List[str], export_to: Optional[str] = None,
+        self, query: (Query, str), headers: List[str] = None, export_to: Optional[str] = None,
     ):
         self.query = query
         self._headers = headers
@@ -15,8 +15,6 @@ class SQLConvert:
 
     @property
     def headers(self):
-        if self._headers is None:
-            raise AttributeError("`headers` attribute should contain data.")
         return self._headers
 
     def make_query(self):

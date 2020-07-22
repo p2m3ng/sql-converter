@@ -2,8 +2,9 @@ import os
 
 import yaml
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-CONFIG_FILES_PATH = os.path.join(BASE_DIR, "files")
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+CONFIG_FILES_PATH = os.path.join(PROJECT_DIR, "settings")
 
 
 class Config:
@@ -42,7 +43,7 @@ class Config:
             yaml.dump(config, file)
 
     def get_file_path(self):
-        return os.path.join(BASE_DIR, "files", self.file)
+        return os.path.join(CONFIG_FILES_PATH, self.file)
 
     def __repr__(self):
         return f"<Configuration: {self.file}>"

@@ -1,12 +1,12 @@
 from typing import Optional
 
-from src.converter.formatters import (
+from sqldumb.converter.formatters import (
     CSVFormatter,
     DictFormatter,
     JsonFormatter,
     ConsoleFormatter,
 )
-from settings.base import get_config
+from sqldumb.settings.base import get_config
 
 config = get_config()
 

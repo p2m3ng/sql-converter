@@ -1,7 +1,7 @@
 import os
 import click
 
-from settings.base import Config, CONFIG_FILES_PATH
+from sqldumb.settings.base import Config, CONFIG_FILES_PATH
 
 
 @click.group()

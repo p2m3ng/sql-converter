@@ -6,7 +6,7 @@ include Makefile
 include requirements.txt
 include tox.ini
 
-recursive-include sql_export *
+graft src
 global-exclude __pycache__/*, *.pyc
 global-exclude venv/*
 

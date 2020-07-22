@@ -2,8 +2,8 @@ from unittest import mock
 
 import pytest
 
-from src.query_builder.database import BaseMapper, Database, Table, Field
-from src.converter.connector import MySQLConnector
+from sqldumb.query_builder.database import BaseMapper, Database, Table, Field
+from sqldumb.converter.connector import MySQLConnector
 
 
 def test_generate_alias():

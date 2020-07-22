@@ -1,2 +1,5 @@
+[paths]
+source =
+    src/
 [run]
 omit=venv*, */__init__.py, setup.py, tests/*

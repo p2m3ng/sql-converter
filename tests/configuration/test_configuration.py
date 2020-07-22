@@ -3,9 +3,9 @@ from unittest import mock
 
 import pytest
 
-from settings.base import get_config, CONFIG_FILES_PATH
+from src.sqldumb.settings.base import get_config, CONFIG_FILES_PATH
 from click.testing import CliRunner
-from src.cli import cli
+from src.sqldumb.cli import cli
 
 
 @pytest.fixture()
@@ -24,7 +24,7 @@ fake_env = {
 
 def test_file_absolute_path(config):
     path = config.get_file_path()
-    assert "settings/files/config.sample.yaml" in path
+    assert "settings/config.sample.yaml" in path
 
 
 def test_cli_config_should_dump_config_file():
