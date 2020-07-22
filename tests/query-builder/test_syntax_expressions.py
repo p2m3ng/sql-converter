@@ -67,7 +67,7 @@ class TestFrom:
         assert repr(from_expression) == "<From # users (us)>"
 
     def test_should_use_database_name(self):
-        table = Table(database='sample', name="users", alias="us")
+        table = Table(database="sample", name="users", alias="us")
         from_expression = From(table=table)
         assert from_expression.build() == "\nFROM `sample`.`users` AS `us` "
 

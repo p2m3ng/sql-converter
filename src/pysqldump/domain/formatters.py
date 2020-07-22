@@ -59,9 +59,7 @@ class JsonFormatter(BaseFormatter):
         return json.dumps(self.data, ensure_ascii=False, default=str)
 
     def print(self):
-        return print(
-            json.dumps(self.data, indent=2, ensure_ascii=False, default=str)
-        )
+        return print(json.dumps(self.data, indent=2, ensure_ascii=False, default=str))
 
 
 class ConsoleFormatter(BaseFormatter):

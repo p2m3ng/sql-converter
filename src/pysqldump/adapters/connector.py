@@ -6,7 +6,6 @@ config = get_config()
 
 
 class MySQLConnector:
-
     @property
     def connect(self):
         return pymysql.connect(

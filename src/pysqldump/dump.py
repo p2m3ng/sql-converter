@@ -7,7 +7,10 @@ from pysqldump.query import Query
 
 class SQLDump:
     def __init__(
-        self, query: (Query, str), headers: List[str] = None, export_to: Optional[str] = None,
+        self,
+        query: (Query, str),
+        headers: List[str] = None,
+        export_to: Optional[str] = None,
     ):
         self.query = query
         self._headers = headers
