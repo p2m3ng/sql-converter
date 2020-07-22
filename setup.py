@@ -3,9 +3,9 @@ from setuptools import setup, find_packages
 with open('README.md') as readme_file:
     readme = readme_file.read()
 
-requirements = [elem.strip() for elem in open('requirements.txt', 'r').readlines()]
+requirements = [elem.strip() for elem in open('requirements/prod.txt', 'r').readlines()][1:]
 
-setup_requirements = [ ]
+setup_requirements = [elem.strip() for elem in open('requirements/base.txt', 'r').readlines()]
 
 test_requirements = [ ]
 
@@ -30,7 +30,7 @@ setup(
     license=open('LICENSE').read(),
     long_description=readme + '\n\n',
     platforms='any',
-    name='sql-domain',
+    name='pymysqldump',
     packages=find_packages('src'),
     package_dir={"": "src"},
     setup_requires=['pytest_runner'],

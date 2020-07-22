@@ -1,0 +1,4 @@
+-r base.txt
+black==19.10b0
+pytest==5.4.1
+pytest-cov==2.8.1
