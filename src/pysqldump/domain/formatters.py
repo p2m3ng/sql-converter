@@ -74,4 +74,3 @@ class ConsoleFormatter(BaseFormatter):
                 print(data)
         elif isinstance(self.data, dict):
             print(self.data)
-

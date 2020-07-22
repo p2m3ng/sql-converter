@@ -1,7 +1,7 @@
 import pytest
 from unittest import mock
 
-from src.pysqldump.dump import SQLDump
+from pysqldump.dump import SQLDump
 
 
 @pytest.fixture

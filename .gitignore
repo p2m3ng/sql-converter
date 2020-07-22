@@ -137,6 +137,9 @@ dmypy.json
 # Docker stuffs
 volume/*
 
+# Gitlab stuffs
+builds
+
 # Personal stuffs
 dev/*
 changenv.sh
