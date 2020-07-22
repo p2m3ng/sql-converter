@@ -1,12 +1,12 @@
 from typing import Optional
 
-from sqldumb.converter.formatters import (
+from pysqldump.domain.formatters import (
     CSVFormatter,
     DictFormatter,
     JsonFormatter,
     ConsoleFormatter,
 )
-from sqldumb.settings.base import get_config
+from pysqldump.settings.base import get_config
 
 config = get_config()
 

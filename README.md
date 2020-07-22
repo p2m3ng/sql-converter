@@ -1,4 +1,4 @@
-# SQL Converter
+# PySqlDump
 
 [![pipeline status](https://gitlab.com/p2m3ng/sql-converter/badges/master/pipeline.svg)](https://gitlab.com/p2m3ng/sql-converter/-/commits/master)
 [![coverage report](https://gitlab.com/p2m3ng/sql-converter/badges/master/coverage.svg)](https://gitlab.com/p2m3ng/sql-converter/-/commits/master)
@@ -35,14 +35,14 @@ Install:
 
 For database configuration, see: 
 
-    $ sqldumb config --help
+    $ pysqldump config --help
 
 ## Usage:
 
 ### SQL Query Builder
 
 ```python
-from src.sqldumb.query import Query, Table
+from pysqldump.query import Query, Table
 ```
 
 First, declare `Table` and build a `Query`. 
@@ -54,7 +54,7 @@ be replaced by a `SELECT *`.
 value which can be overridden if the parameter is filled. 
 
 ```python
-from sql_converter.query import Table
+from pysqldump.query import Table
 
 authors = Table(
     name="author",
@@ -71,7 +71,7 @@ books = Table(
 Queries objects can be built in chaining arguments. 
 
 ```python
-from sql_converter.query import Query
+from pysqldump.query import Query
 
 query = Query(prettify=False) \
     .add(table=authors) \
@@ -112,9 +112,9 @@ LIMIT 5;
 ### Parameters
 
 ```python
-from src.sqldumb.convert import SQLConvert
+from pysqldump.dump import SQLDump
 
-export = SQLConvert(
+export = SQLDump(
     query=query.build(),
     headers=query.headers,
 )
@@ -153,7 +153,7 @@ data = export.make(pprint=True)
 Headers are mandatory. 
 
 ```python
-from src.sqldumb.convert import SQLConvert
+from pysqldump.dump import SQLDump
 
 query = """SELECT aut.id, aut.name, aut.first_name, aut.nationality, boo.id, 
 boo.author_id, boo.title, boo.isbn 
@@ -165,7 +165,7 @@ LIMIT 5;"""
 
 headers = ["id", "name", "first_name", "nationality", "id", "author_id", "title", "isbn"]
 
-export = SQLConvert(
+export = SQLDump(
     query=query,
     headers=headers,
     export_to=f"authors.json",

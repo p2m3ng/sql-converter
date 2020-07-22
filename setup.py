@@ -21,7 +21,7 @@ setup(
     description='Dump SQL query result in various format and supports',
     entry_points={
         'console_scripts': [
-            'sqldumb=sqldumb.cli:cli',
+            'pysqldump=pysqldump.cli:cli',
         ],
     },
     install_requires=requirements,
@@ -30,7 +30,7 @@ setup(
     license=open('LICENSE').read(),
     long_description=readme + '\n\n',
     platforms='any',
-    name='sql-converter',
+    name='sql-domain',
     packages=find_packages('src'),
     package_dir={"": "src"},
     setup_requires=['pytest_runner'],

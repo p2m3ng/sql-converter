@@ -1,5 +1,5 @@
-from src.sqldumb.query_builder.database import Table
-from src.sqldumb.query import Query
+from src.pysqldump.query_builder.database import Table
+from src.pysqldump.query import Query
 
 
 def test_headers_should_be_a_list():

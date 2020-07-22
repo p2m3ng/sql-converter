@@ -1,11 +1,11 @@
 from typing import List, Optional
 
-from sqldumb.converter.connector import MySQLConnector
-from sqldumb.converter.manager import OutputManager
-from sqldumb.query import Query
+from pysqldump.adapters.connector import MySQLConnector
+from pysqldump.domain.manager import OutputManager
+from pysqldump.query import Query
 
 
-class SQLConvert:
+class SQLDump:
     def __init__(
         self, query: (Query, str), headers: List[str] = None, export_to: Optional[str] = None,
     ):

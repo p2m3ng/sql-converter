@@ -1,4 +1,4 @@
-from sqldumb.query_builder.database import Table
+from pysqldump.query_builder.database import Table
 from typing import Optional
 from abc import ABC, abstractmethod
 

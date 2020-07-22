@@ -38,7 +38,7 @@ db:
 	docker exec -i sqlco-mysql mysql -uroot -ppassword < dev/mysqlsampledatabase.sql
 
 conn:
-	docker exec -ti sqlco-mysql mysql -uroot -ppassword
+	docker exec -ti sqlco-mysql mysql -uroot -p
 
 down:
 	docker-compose down --remove-orphans

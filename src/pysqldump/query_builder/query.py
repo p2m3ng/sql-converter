@@ -1,5 +1,5 @@
-from sqldumb.query_builder.database import Table
-from sqldumb.query_builder.syntax import Select, From, Join, Where, OrderBy, Limit
+from pysqldump.query_builder.database import Table
+from pysqldump.query_builder.syntax import Select, From, Join, Where, OrderBy, Limit
 
 
 class QueryBuilder:

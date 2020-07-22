@@ -1,7 +1,7 @@
 import os
 import click
 
-from sqldumb.settings.base import Config, CONFIG_FILES_PATH
+from pysqldump.settings.base import Config, CONFIG_FILES_PATH
 
 
 @click.group()

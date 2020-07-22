@@ -2,8 +2,8 @@ import os
 
 import pytest
 
-from src.sqldumb.converter.formatters import ConsoleFormatter
-from src.sqldumb.converter.manager import OutputManager
+from src.pysqldump.domain.formatters import ConsoleFormatter
+from src.pysqldump.domain.manager import OutputManager
 
 
 @pytest.fixture

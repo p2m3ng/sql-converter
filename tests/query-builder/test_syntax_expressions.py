@@ -2,9 +2,9 @@ from unittest import mock
 
 import pytest
 
-from sqldumb.converter.connector import MySQLConnector
-from sqldumb.query_builder.database import Table
-from sqldumb.query_builder.syntax import Select, From, Join, Where, OrderBy, Limit
+from pysqldump.adapters.connector import MySQLConnector
+from pysqldump.query_builder.database import Table
+from pysqldump.query_builder.syntax import Select, From, Join, Where, OrderBy, Limit
 
 
 class TestSelect:

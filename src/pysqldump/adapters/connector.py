@@ -1,6 +1,6 @@
 import pymysql
 
-from sqldumb.settings.base import get_config
+from pysqldump.settings.base import get_config
 
 config = get_config()
 
@@ -17,7 +17,7 @@ class MySQLConnector:
             port=config.get["db"]["port"],
         )
 
-    def execute(self, query):
+    def execute(self, query: str):
         try:
             with self.connect.cursor(pymysql.cursors.DictCursor) as cursor:
                 cursor.execute(query)

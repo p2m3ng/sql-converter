@@ -1,7 +1,7 @@
 import random
 import string
-from sqldumb.converter.connector import MySQLConnector
-from sqldumb.converter.formatters import JsonFormatter
+from pysqldump.adapters.connector import MySQLConnector
+from pysqldump.domain.formatters import JsonFormatter
 
 
 class BaseMapper:

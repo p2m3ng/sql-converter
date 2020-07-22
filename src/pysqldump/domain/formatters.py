@@ -1,9 +1,9 @@
 import csv
 import json
-from abc import ABC
+import abc
 
 
-class BaseFormatter(ABC):
+class BaseFormatter(abc.ABC):
     def __init__(self, headers, data, export_to):
         self.headers = headers
         self.data = data
@@ -36,7 +36,7 @@ class CSVFormatter(BaseFormatter):
         return ""
 
 
-class DictFormatter(BaseFormatter, ABC):
+class DictFormatter(BaseFormatter, abc.ABC):
     def export(self):
         return self.data
 

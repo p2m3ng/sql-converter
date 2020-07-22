@@ -2,8 +2,8 @@ from unittest import mock
 
 import pytest
 
-from sqldumb.query_builder.database import BaseMapper, Database, Table, Field
-from sqldumb.converter.connector import MySQLConnector
+from pysqldump.query_builder.database import BaseMapper, Database, Table, Field
+from pysqldump.adapters.connector import MySQLConnector
 
 
 def test_generate_alias():

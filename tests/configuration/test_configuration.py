@@ -3,9 +3,9 @@ from unittest import mock
 
 import pytest
 
-from src.sqldumb.settings.base import get_config, CONFIG_FILES_PATH
+from src.pysqldump.settings.base import get_config, CONFIG_FILES_PATH
 from click.testing import CliRunner
-from src.sqldumb.cli import cli
+from src.pysqldump.cli import cli
 
 
 @pytest.fixture()
