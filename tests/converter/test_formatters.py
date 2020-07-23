@@ -14,10 +14,6 @@ def headers():
 @pytest.fixture
 def data():
     return [{"id": 1, "user": "John Doe"}, {"id": 2, "user": "John Smith"}]
-    return (
-        (1, "John Doe"),
-        (2, "John Smith"),
-    )
 
 
 def test_json_formatter_should_return_json_seialized_data_in_file(

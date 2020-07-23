@@ -2,18 +2,19 @@ import pymysql
 
 from pysqldump.settings.base import get_config
 
-config = get_config()
-
 
 class MySQLConnector:
+    def __init__(self, config: str = 'config.yaml'):
+        self.config = get_config(config)
+        
     @property
     def connect(self):
         return pymysql.connect(
-            host=config.get["db"]["host"],
-            user=config.get["db"]["user"],
-            password=config.get["db"]["password"],
-            db=config.get["db"]["name"],
-            port=config.get["db"]["port"],
+            host=self.config.get["db"]["host"],
+            user=self.config.get["db"]["user"],
+            password=self.config.get["db"]["password"],
+            db=self.config.get["db"]["name"],
+            port=self.config.get["db"]["port"],
         )
 
     def execute(self, query: str):

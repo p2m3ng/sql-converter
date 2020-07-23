@@ -1,0 +1,6 @@
+db:
+  host: localhost
+  name: classicmodels
+  password: password
+  port: 3306
+  user: root

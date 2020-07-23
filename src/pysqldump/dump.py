@@ -2,13 +2,12 @@ from typing import List, Optional
 
 from pysqldump.adapters.connector import MySQLConnector
 from pysqldump.domain.manager import OutputManager
-from pysqldump.query import Query
 
 
 class SQLDump:
     def __init__(
         self,
-        query: (Query, str),
+        query: str,
         headers: List[str] = None,
         export_to: Optional[str] = None,
     ):

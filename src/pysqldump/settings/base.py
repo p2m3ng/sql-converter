@@ -15,8 +15,6 @@ class Config:
 
     @property
     def get(self):
-        if "SQL_EXPORT_DB_HOST" in os.environ.keys():
-            self.dump_environment_variables()
         try:
             return self.get_file_content()
         except FileNotFoundError:
@@ -27,18 +25,6 @@ class Config:
     def get_file_content(self):
         with open(self.get_file_path()) as file:
             return yaml.load(file, Loader=yaml.FullLoader)
-
-    def dump_environment_variables(self):
-        config = {
-            "db": {
-                "host": os.environ["SQL_EXPORT_DB_HOST"],
-                "port": int(os.environ["SQL_EXPORT_DB_PORT"]),
-                "user": os.environ["SQL_EXPORT_DB_USER"],
-                "name": os.environ["SQL_EXPORT_DB_NAME"],
-                "password": os.environ["SQL_EXPORT_DB_PASSWORD"],
-            }
-        }
-        self.dump_to_config_file(config=config)
 
     def dump_to_config_file(self, config):
         with open(self.get_file_path(), "w") as file:

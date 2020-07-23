@@ -4,8 +4,8 @@ with open("README.md") as readme_file:
     readme = readme_file.read()
 
 requirements = [
-    elem.strip() for elem in open("requirements/prod.txt", "r").readlines()
-][1:]
+    elem.strip() for elem in open("requirements/base.txt", "r").readlines()
+]
 
 setup_requirements = [
     elem.strip() for elem in open("requirements/base.txt", "r").readlines()
@@ -33,7 +33,7 @@ setup(
     name="pymysqldump",
     packages=find_packages("src"),
     package_dir={"": "src"},
-    setup_requires=["pytest_runner"],
+    setup_requires=setup_requirements,
     test_suite="tests",
     tests_require=test_requirements,
     url="https://gitlab.com/p2m3ng/sql-converter",
