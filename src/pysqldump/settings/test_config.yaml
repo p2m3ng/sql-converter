@@ -1,6 +1,6 @@
 db:
   host: localhost
-  name: classicmodels
+  name: mysql
   password: password
   port: 3306
   user: root
