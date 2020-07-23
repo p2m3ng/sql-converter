@@ -1,4 +1,4 @@
-.PHONY: clean clean-test clean-pyc clean-build help dev install
+.PHONY: clean clean-test clean-pyc clean-build help dev install dtest db
 .DEFAULT_GOAL := help
 
 define PRINT_HELP_PYSCRIPT
@@ -55,23 +55,39 @@ prune-venv:
 	rm -fr venv/
 
 ## Docker
+build:
+	docker-compose build
+
 up: ## create containers with sample databases
 	docker-compose up -d
 
 db: ## mount sample databases
-	docker exec -i sqlco-mysql mysql -uroot -ppassword < dev/mysqlsampledatabase.sql
+	mkdir -p db/samples
+	wget https://github.com/lerocha/chinook-database/raw/master/ChinookDatabase/DataSources/Chinook_MySql.sql -O \
+	 ./db/samples/chinook.sql
+	wget https://github.com/lerocha/chinook-database/raw/master/ChinookDatabase/DataSources/Chinook_Sqlite.sqlite -O \
+	./db/samples/chinook.sqlite
+# 	docker exec -i sqlco-mysql mysql -uroot -ppassword < db/samples/chinook.sql
 
 conn:
-	docker exec -ti sqlco-mysql mysql -uroot -p
+	docker exec -ti sqlco-mysql mysql -uroot -ppassword Chinook
+
+logs:
+	docker logs -f sqlco-mysql
 
 down: ## remove containers
-	docker-compose down --remove-orphans
+	docker-compose down -v --remove-orphans
+
+erase: down ## remove containers and erase volume
+	rm-rf volume
 
 ## Tests
+
+test-env: db build up ## run test docker and install mysql database
 
 test: ## launch tests
 	py.test
 
-coverage: ## Check coverage
+coverage: ## check coverage
 	py.test --cov=.
 	coverage html

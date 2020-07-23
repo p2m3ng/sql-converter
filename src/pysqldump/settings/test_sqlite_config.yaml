@@ -1,0 +1,3 @@
+db:
+  db: sqlite
+  name: db/samples/chinook.sqlite

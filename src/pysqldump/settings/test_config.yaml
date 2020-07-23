@@ -1,6 +1,7 @@
 db:
+  db: mysql
   host: localhost
-  name: mysql
+  name: Chinook
   password: password
   port: 3306
   user: root

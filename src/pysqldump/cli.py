@@ -10,7 +10,13 @@ def cli():
 
 
 @cli.command("config")
-@click.option("--db", "-d", required=True, help="Database engine")
+@click.option(
+    "--db",
+    "-d",
+    required=True,
+    type=click.Choice(["mysql", "sqlite"]),
+    help="Database engine",
+)
 @click.option("--name", "-n", required=True, help="Database name")
 @click.option(
     "--host", "-h", default="localhost", show_default=True, help="Database host"
@@ -26,8 +32,7 @@ def cli():
     "--file",
     "-f",
     default=os.path.join(CONFIG_FILES_PATH, "config.yaml"),
-    show_default=True,
-    help="Config file path",
+    help="Config file name  [default: config.yaml]",
 )
 def config(db, name, host, port, user, password, file):
     """Config file management"""

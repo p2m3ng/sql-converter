@@ -147,3 +147,4 @@ output/*
 *.json
 *.csv
 tmp.py
+db

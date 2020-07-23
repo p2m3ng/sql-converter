@@ -1,2 +1,2 @@
 [run]
-omit=venv*, */__init__.py, setup.py
+omit=venv*, */__init__.py, */tests/*, setup.py
